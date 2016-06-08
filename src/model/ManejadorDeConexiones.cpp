@@ -7,24 +7,31 @@
 
 #include "ManejadorDeConexiones.h"
 
+#include <iostream>
+
 #include "Conexion.h"
+#include "Usuario.h"
 
-#define ARCHIVO_COLA "colaDeConexiones"
+#define ARCHIVO_COLA_CONEXIONES "colaDeConexiones"
 
-ManejadorDeConexiones::ManejadorDeConexiones(): colaDeConexiones(ARCHIVO_COLA, 'a') {
+ManejadorDeConexiones::ManejadorDeConexiones(): colaDeConexiones(ARCHIVO_COLA_CONEXIONES, 'a'), gracefulQuit(true) {
 
 }
 
 void ManejadorDeConexiones::run() {
-	int idClientes = 0;
-	Conexion buffer;
+	int idCliente = 0;
+	conexion c;
 	while(gracefulQuit) {
-		idClientes++;
-		colaDeConexiones.leer(1, &buffer);
+		idCliente++;
+		cout << "Cola de conexiones" << endl;
+		colaDeConexiones.leer(1, &c);
+		cout << "Ingreso usuario:" << c.nombre << endl;
+		// Pasar usuario al otro proceso
 
 
 	}
 }
+
 ManejadorDeConexiones::~ManejadorDeConexiones() {
 	// TODO Auto-generated destructor stub
 }

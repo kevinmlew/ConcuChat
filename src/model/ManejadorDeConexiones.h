@@ -14,7 +14,7 @@
 using namespace std;
 
 class ManejadorDeConexiones {
-	Cola<Conexion> colaDeConexiones;
+	Cola<conexion> colaDeConexiones;
 	bool gracefulQuit;
 
 public:

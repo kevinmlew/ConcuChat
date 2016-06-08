@@ -12,13 +12,9 @@
 
 using namespace std;
 
-class Conexion {
-private:
+typedef struct conexion {
+	long mtype;
 	string nombre;
-public:
-	Conexion();
-	string getNombre();
-	virtual ~Conexion();
-};
+} conexion;
 
 #endif /* MODEL_CONEXION_H_ */
