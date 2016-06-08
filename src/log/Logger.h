@@ -8,13 +8,22 @@
 #ifndef LOG_LOGGER_H_
 #define LOG_LOGGER_H_
 
-#include <iostream>
-#include <fstream>
 #include <string>
+
+#include "../ipc/LockFile.h"
+
 
 using namespace std;
 
 class Logger {
+private:
+	Logger();
+	static Logger* instance;
+	static Logger* getInstance();
+	LockFile lock;
+
+	static bool esNecesarioLoggear(string typeLog);
+
 public:
 	static void insert(string typeLog, string message);
 	static void insertError(string message, int errorCode);
