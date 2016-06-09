@@ -9,12 +9,12 @@
 #define MODEL_MANEJADORDECONEXIONES_H_
 
 #include "../ipc/Cola.h"
-#include "Conexion.h"
+#include "Mensaje.h"
 
 using namespace std;
 
 class ManejadorDeConexiones {
-	Cola<conexion> colaDeConexiones;
+	Cola<mensaje> colaDeConexiones;
 	bool gracefulQuit;
 
 public:

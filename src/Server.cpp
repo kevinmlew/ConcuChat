@@ -19,7 +19,10 @@ using namespace std;
 int main() {
 	cout << "!!!Hello Server!!!" << endl;
 
-	pid_t pidMensajes = fork();
+	ManejadorDeConexiones manejadorDeConexiones;
+	manejadorDeConexiones.run();
+
+	/**pid_t pidMensajes = fork();
 	if (pidMensajes == 0){
 		//hijo Mensajes
 		ManejadorDeMensajes manejadorDeMensajes;
@@ -39,7 +42,7 @@ int main() {
 	}
 	int status;
 	wait(&status);
-	wait(&status);
+	wait(&status);*/
 
 
 

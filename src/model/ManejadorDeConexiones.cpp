@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-#include "Conexion.h"
+#include "Mensaje.h"
 #include "Usuario.h"
 
 #define ARCHIVO_COLA_CONEXIONES "colaDeConexiones"
@@ -20,12 +20,11 @@ ManejadorDeConexiones::ManejadorDeConexiones(): colaDeConexiones(ARCHIVO_COLA_CO
 
 void ManejadorDeConexiones::run() {
 	int idCliente = 0;
-	conexion c;
+	mensaje m;
 	while(gracefulQuit) {
 		idCliente++;
-		cout << "Cola de conexiones" << endl;
-		colaDeConexiones.leer(1, &c);
-		cout << "Ingreso usuario:" << c.nombre << endl;
+		colaDeConexiones.leer(1, &m);
+		cout << "Ingreso usuario:" << m.texto << endl;
 		// Pasar usuario al otro proceso
 
 

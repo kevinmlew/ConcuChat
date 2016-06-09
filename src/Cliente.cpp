@@ -6,29 +6,25 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
+#include <cstring>
 #include <iostream>
 #include <string>
 
 #include "ipc/Cola.h"
-#include "model/Conexion.h"
+#include "model/Mensaje.h"
 
 using namespace std;
 
 int main() {
 	// Test cola de conexiones
-    Cola<conexion> colaDeConexiones("colaDeConexiones", 'a');
+    Cola<mensaje> colaDeConexiones("colaDeConexiones", 'a');
 
-	conexion msj1;
-	conexion msj2;
-
+	mensaje msj1;
 	msj1.mtype = 1;
-	msj1.nombre = "test";
-	cout << "escribe: " << msj1.nombre << endl;
+	string nombre = "test";
+	strcpy(msj1.texto, nombre.c_str());
+	cout << "escribe: " << msj1.texto << endl;
 	colaDeConexiones.escribir(msj1);
-
-	colaDeConexiones.leer(1,&msj2);
-	cout << "lee " << msj2.nombre << endl;
-	colaDeConexiones.destruir();
 
 	return 0;
 }
