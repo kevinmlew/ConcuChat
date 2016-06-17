@@ -12,6 +12,7 @@
 using namespace std;
 
 class ManejadorDeConexiones : public ManejadorDeColaDeMensajes {
+	static int cantidadDeUsuarios;
 	void procesarMensaje(mensaje m);
 public:
 	ManejadorDeConexiones(const string archivo);
