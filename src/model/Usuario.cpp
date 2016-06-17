@@ -7,7 +7,7 @@
 
 #include "Usuario.h"
 
-Usuario::Usuario(int id, string nombre) : id(id), nombre(nombre), activo(true) {
+Usuario::Usuario(int id, string nombre) : id(id), nombre(nombre), activo(false) {
 
 }
 

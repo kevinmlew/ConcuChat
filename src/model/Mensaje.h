@@ -13,10 +13,14 @@
 #define REGISTRAR_USUARIO 2
 #define PRIMER_USUARIO 5
 
+#define TIPO_ASIGNACION_ID 0
+#define TIPO_NUEVA_CONEXION 1
+
 #define TEXTO_SIZE 255
 
 typedef struct mensaje {
 	long mtype;
+	int tipoMensaje;
 	int userId;
 	char texto [TEXTO_SIZE];
 } mensaje;
