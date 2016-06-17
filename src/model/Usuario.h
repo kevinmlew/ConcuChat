@@ -18,7 +18,9 @@ private:
 	string nombre;
 	bool activo;
 public:
-	Usuario(int id, string nombre);
+	Usuario(int id);
+	void setNombre(string nombre);
+	string getNombre();
 	void setActivo(bool activo);
 	bool isActivo();
 	virtual ~Usuario();

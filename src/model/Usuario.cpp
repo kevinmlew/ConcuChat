@@ -7,12 +7,20 @@
 
 #include "Usuario.h"
 
-Usuario::Usuario(int id, string nombre) : id(id), nombre(nombre), activo(false) {
+Usuario::Usuario(int id) : id(id), activo(false) {
 
 }
 
 void Usuario::setActivo(bool activo) {
 	this->activo = activo;
+}
+
+void Usuario::setNombre(string nombre){
+	this->nombre = nombre;
+}
+
+string Usuario::getNombre(){
+	return nombre;
 }
 
 bool Usuario::isActivo() {

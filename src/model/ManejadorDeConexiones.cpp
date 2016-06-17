@@ -8,8 +8,8 @@
 #include "ManejadorDeConexiones.h"
 
 #include <cstring>
-#include <string>
 
+#include "ManejadorDeMensajes.h"
 #include "Mensaje.h"
 
 int ManejadorDeConexiones::cantidadDeUsuarios = 0;

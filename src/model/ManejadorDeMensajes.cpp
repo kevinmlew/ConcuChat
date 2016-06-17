@@ -7,8 +7,8 @@
 
 #include "ManejadorDeMensajes.h"
 
+#include <cstdlib>
 #include <cstring>
-#include <iostream>
 
 #include "Mensaje.h"
 
@@ -24,22 +24,32 @@ void ManejadorDeMensajes::notificarNuevaConexion(int id) {
 	colaDeMensajes.escribir(men);
 }
 
+void ManejadorDeMensajes::agregarConexionDeUsuario(int id) {
+	Usuario user(id);
+	usuarios.push_back(user);
+}
+
 void ManejadorDeMensajes::procesarMensaje(mensaje m) {
-	int idCliente = PRIMER_USUARIO;
-	if (m.userId == USUARIO_NO_REGISTRADO){
-		// Se conecto un usuario nuevo
-		cout << "Ingreso usuario: " << m.texto << endl;
-		mensaje respuesta;
-		respuesta.mtype = REGISTRAR_USUARIO;
-		respuesta.userId = idCliente;
-		string rs = "OK";
-		strcpy(respuesta.texto, rs.c_str());
-		colaDeMensajes.escribir(respuesta);
-		// Mandar historial
-		idCliente++;
-		//continue;
+//	int idCliente = PRIMER_USUARIO;
+//	if (m.userId == USUARIO_NO_REGISTRADO){
+//		// Se conecto un usuario nuevo
+//		cout << "Ingreso usuario: " << m.texto << endl;
+//		mensaje respuesta;
+//		respuesta.mtype = REGISTRAR_USUARIO;
+//		respuesta.userId = idCliente;
+//		string rs = "OK";
+//		strcpy(respuesta.texto, rs.c_str());
+//		colaDeMensajes.escribir(respuesta);
+//		// Mandar historial
+//		idCliente++;
+//		//continue;
+//	}
+//	cout << "UserId: " << m.userId << ". Mensaje: " << m.texto << endl;
+
+	if (m.tipoMensaje == TIPO_NUEVA_CONEXION){
+		agregarConexionDeUsuario(atoi(m.texto));
 	}
-	cout << "UserId: " << m.userId << ". Mensaje: " << m.texto << endl;
+
 }
 
 ManejadorDeMensajes::~ManejadorDeMensajes() {

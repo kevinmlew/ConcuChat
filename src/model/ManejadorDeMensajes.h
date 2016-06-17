@@ -11,10 +11,16 @@
 #include <string>
 
 #include "ManejadorDeColaDeMensajes.h"
+#include "Usuario.h"
+
+#include <vector>
+
 using namespace std;
 
 class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
+	vector<Usuario> usuarios;
 	void procesarMensaje(mensaje m);
+	void agregarConexionDeUsuario(int id);
 public:
 	ManejadorDeMensajes(const string archivo);
 	void notificarNuevaConexion(int id);
