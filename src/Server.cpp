@@ -7,17 +7,26 @@
 //============================================================================
 
 #include <unistd.h>
-#include <stdlib.h>
-#include <iostream>
 
+#include "model/ManejadorDeConexiones.h"
 #include "model/ManejadorDeMensajes.h"
 
 using namespace std;
 
-int main() {
+#define ARCHIVO_COLA_MENSAJES "colaDeMensajes"
+#define ARCHIVO_COLA_CONEX "colaDeConexiones"
 
-	ManejadorDeMensajes manejadorDeMensajes;
-	manejadorDeMensajes.run();
+int main() {
+	pid_t pid = fork();
+	if (pid == 0){
+		//Manejar conexiones entrantes
+		ManejadorDeConexiones manejadorDeConexiones(ARCHIVO_COLA_CONEX);
+		manejadorDeConexiones.run();
+	} else {
+		//Manejar mensajes de usuarios logueados
+		ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES);
+		manejadorDeMensajes.run();
+	}
 
 	return 0;
 }

@@ -8,16 +8,15 @@
 #ifndef MODEL_MANEJADORDEMENSAJES_H_
 #define MODEL_MANEJADORDEMENSAJES_H_
 
-#include "../ipc/Cola.h"
-#include "Mensaje.h"
+#include <string>
 
-class ManejadorDeMensajes {
-private:
-	Cola<mensaje> colaDeMensajes;
-	bool gracefulQuit;
+#include "ManejadorDeColaDeMensajes.h"
+using namespace std;
+
+class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
+	void procesarMensaje(mensaje m);
 public:
-	ManejadorDeMensajes();
-	void run();
+	ManejadorDeMensajes(const string archivo);
 	virtual ~ManejadorDeMensajes();
 };
 
