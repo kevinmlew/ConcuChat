@@ -9,10 +9,19 @@
 
 #include <cstring>
 #include <iostream>
-#include <string>
+
+#include "Mensaje.h"
 
 ManejadorDeMensajes::ManejadorDeMensajes(const string archivo) : ManejadorDeColaDeMensajes(archivo) {
 
+}
+
+void ManejadorDeMensajes::notificarNuevaConexion(int id) {
+	mensaje men;
+	men.mtype = MENSAJE_A_SERVIDOR;
+	men.tipoMensaje = TIPO_NUEVA_CONEXION;
+	strcpy(men.texto, std::to_string(id).c_str());
+	colaDeMensajes.escribir(men);
 }
 
 void ManejadorDeMensajes::procesarMensaje(mensaje m) {

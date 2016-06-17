@@ -18,13 +18,16 @@ using namespace std;
 
 int main() {
 	pid_t pid = fork();
+
+	//El manejador de mensajes se usa en ambos procesos
+	ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES);
+
 	if (pid == 0){
 		//Manejar conexiones entrantes
-		ManejadorDeConexiones manejadorDeConexiones(ARCHIVO_COLA_CONEX);
+		ManejadorDeConexiones manejadorDeConexiones(ARCHIVO_COLA_CONEX, &manejadorDeMensajes);
 		manejadorDeConexiones.run();
 	} else {
 		//Manejar mensajes de usuarios logueados
-		ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES);
 		manejadorDeMensajes.run();
 	}
 

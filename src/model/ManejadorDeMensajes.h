@@ -17,6 +17,7 @@ class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	void procesarMensaje(mensaje m);
 public:
 	ManejadorDeMensajes(const string archivo);
+	void notificarNuevaConexion(int id);
 	virtual ~ManejadorDeMensajes();
 };
 
