@@ -15,6 +15,12 @@
 
 #define TIPO_ASIGNACION_ID 0
 #define TIPO_NUEVA_CONEXION 1
+#define TIPO_SELECCION_NOMBRE 2
+#define TIPO_CHAT 3
+#define TIPO_SALIR 4
+
+#define STATUS_OK 0
+#define STATUS_ERROR -1
 
 #define TEXTO_SIZE 255
 
@@ -22,6 +28,7 @@ typedef struct mensaje {
 	long mtype;
 	int tipoMensaje;
 	int userId;
+	int status;
 	char texto [TEXTO_SIZE];
 } mensaje;
 
