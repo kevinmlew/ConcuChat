@@ -11,8 +11,7 @@
 #include <string>
 
 #include "ManejadorDeColaDeMensajes.h"
-
-class ManejadorDeMensajes;
+#include "ManejadorDeMensajes.h"
 
 using namespace std;
 

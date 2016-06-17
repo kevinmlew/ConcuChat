@@ -12,12 +12,20 @@
 
 #include "ipc/Cola.h"
 #include "model/Mensaje.h"
+#include "model/ManejadorDelCliente.h"
 
 using namespace std;
 
+#define ARCHIVO_COLA_MENSAJES "colaDeMensajes"
+#define ARCHIVO_COLA_CONEX "colaDeConexiones"
+
 int main() {
+	ManejadorDelCliente manejador(ARCHIVO_COLA_MENSAJES);
+	manejador.conectar(ARCHIVO_COLA_CONEX);
+	manejador.login();
+
 	// Test cola de conexiones
-    Cola<mensaje> colaDeMensajes("colaDeMensajes", 'a');
+    /**Cola<mensaje> colaDeMensajes("colaDeMensajes", 'a');
 
 	mensaje msj1;
 	msj1.mtype = MENSAJE_A_SERVIDOR;
@@ -39,9 +47,7 @@ int main() {
 	msj2.mtype = MENSAJE_A_SERVIDOR;
 	msj2.userId = respuesta.userId;
 	strcpy(msj2.texto, texto.c_str());
-	colaDeMensajes.escribir(msj2);
-
-
+	colaDeMensajes.escribir(msj2);*/
 
 	return 0;
 }

@@ -21,6 +21,7 @@ ManejadorDeConexiones::ManejadorDeConexiones(const string archivoConexiones, Man
 
 void ManejadorDeConexiones::enviarIdAlUsuario(){
 	mensaje men;
+	men.mtype = REGISTRAR_USUARIO;
 	men.tipoMensaje = TIPO_ASIGNACION_ID;
 	strcpy(men.texto, std::to_string(cantidadDeUsuarios).c_str());
 	colaDeMensajes.escribir(men);
