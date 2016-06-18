@@ -8,6 +8,7 @@
 
 #include <unistd.h>
 
+#include "model/Historial.h"
 #include "model/ManejadorDeConexiones.h"
 #include "model/ManejadorDeMensajes.h"
 
@@ -15,12 +16,14 @@ using namespace std;
 
 #define ARCHIVO_COLA_MENSAJES "colaDeMensajes"
 #define ARCHIVO_COLA_CONEX "colaDeConexiones"
+#define ARCHIVO_HISTORIAL "historial"
 
 int main() {
 	pid_t pid = fork();
 
 	//El manejador de mensajes se usa en ambos procesos
-	ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES);
+	Historial historial(ARCHIVO_HISTORIAL);
+	ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES, &historial);
 
 	if (pid == 0){
 		//Manejar conexiones entrantes

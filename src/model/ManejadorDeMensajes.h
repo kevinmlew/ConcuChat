@@ -9,16 +9,18 @@
 #define MODEL_MANEJADORDEMENSAJES_H_
 
 #include <string>
+#include <vector>
 
 #include "ManejadorDeColaDeMensajes.h"
 #include "Usuario.h"
 
-#include <vector>
+class Historial;
 
 using namespace std;
 
 class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	vector<Usuario> usuarios;
+	Historial* historial;
 	void procesarMensaje(mensaje m);
 	void agregarConexionDeUsuario(int id);
 	bool validarNombreEnUso(string nombre);
@@ -33,7 +35,7 @@ class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	int getIndiceDeUsuario(int userId);
 
 public:
-	ManejadorDeMensajes(const string archivo);
+	ManejadorDeMensajes(const string archivo, Historial* historial);
 	void notificarNuevaConexion(int id);
 	virtual ~ManejadorDeMensajes();
 };

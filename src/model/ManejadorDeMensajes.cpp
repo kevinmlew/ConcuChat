@@ -9,11 +9,14 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <iterator>
 
+#include "Historial.h"
 #include "Mensaje.h"
 
-ManejadorDeMensajes::ManejadorDeMensajes(const string archivo) : ManejadorDeColaDeMensajes(archivo) {
-
+ManejadorDeMensajes::ManejadorDeMensajes(const string archivo, Historial* historial)
+: ManejadorDeColaDeMensajes(archivo) {
+	this->historial = historial;
 }
 
 void ManejadorDeMensajes::notificarNuevaConexion(int id) {
@@ -97,11 +100,17 @@ int ManejadorDeMensajes::getIndiceDeUsuario(int userId){
 }
 
 void ManejadorDeMensajes::guardarMensajeEnHistorial(string mensajeCompleto){
-	//TODO
+	this->historial->guardarMensaje(mensajeCompleto);
 }
 
 void ManejadorDeMensajes::enviarHistorial(int userId){
-	//TODO
+	string histo = this->historial->getHistorial();
+	mensaje m;
+	m.status = STATUS_OK;
+	m.mtype = userId;
+	m.tipoMensaje = TIPO_HISTORIAL;
+	strcpy(m.texto, histo.c_str());
+	colaDeMensajes.escribir(m);
 }
 
 void ManejadorDeMensajes::enviarMensajeAUsuarios(int autorId, string msgCompleto) {

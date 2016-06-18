@@ -18,6 +18,7 @@
 #define TIPO_SELECCION_NOMBRE 2
 #define TIPO_CHAT 3
 #define TIPO_SALIR 4
+#define TIPO_HISTORIAL 5
 
 #define STATUS_OK 0
 #define STATUS_ERROR -1
