@@ -12,7 +12,7 @@
 #include "ManejadorDeMensajes.h"
 #include "Mensaje.h"
 
-int ManejadorDeConexiones::cantidadDeUsuarios = 0;
+int ManejadorDeConexiones::cantidadDeUsuarios = 1; //Tiene que empezar en 1 porque el server es un usuario
 
 ManejadorDeConexiones::ManejadorDeConexiones(const string archivoConexiones, ManejadorDeMensajes* manejador) :
 		ManejadorDeColaDeMensajes(archivoConexiones){
