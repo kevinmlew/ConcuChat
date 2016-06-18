@@ -29,25 +29,44 @@ void ManejadorDeMensajes::agregarConexionDeUsuario(int id) {
 	usuarios.push_back(user);
 }
 
-void ManejadorDeMensajes::procesarMensaje(mensaje m) {
-//	int idCliente = PRIMER_USUARIO;
-//	if (m.userId == USUARIO_NO_REGISTRADO){
-//		// Se conecto un usuario nuevo
-//		cout << "Ingreso usuario: " << m.texto << endl;
-//		mensaje respuesta;
-//		respuesta.mtype = REGISTRAR_USUARIO;
-//		respuesta.userId = idCliente;
-//		string rs = "OK";
-//		strcpy(respuesta.texto, rs.c_str());
-//		colaDeMensajes.escribir(respuesta);
-//		// Mandar historial
-//		idCliente++;
-//		//continue;
-//	}
-//	cout << "UserId: " << m.userId << ". Mensaje: " << m.texto << endl;
+bool ManejadorDeMensajes::validarNombreEnUso(string nombre) {
+	for (int i = 0 ; i < this->usuarios.size(); i++)
+		if (usuarios.at(i).getNombre() == nombre) return true;
+	return false;
+}
 
+void ManejadorDeMensajes::enviarNombreEnUso(int id, string nombre){
+	mensaje m;
+	m.status = STATUS_ERROR;
+	m.mtype = id;
+	m.tipoMensaje = TIPO_SELECCION_NOMBRE;
+	string txt = "Nombre de usuario " + nombre + " en uso";
+	strcpy(m.texto, txt.c_str());
+	colaDeMensajes.escribir(m);
+}
+
+void ManejadorDeMensajes::agregarUsuarioActivo(int id, string nombre) {
+	for (int i = 0 ; i < this->usuarios.size(); i++){
+		if (usuarios.at(i).getId() == id){
+			usuarios.at(i).setActivo(true);
+			usuarios.at(i).setNombre(nombre);
+			return;
+		}
+	}
+}
+
+void ManejadorDeMensajes::procesarMensaje(mensaje m) {
 	if (m.tipoMensaje == TIPO_NUEVA_CONEXION){
 		agregarConexionDeUsuario(atoi(m.texto));
+	} else if (m.tipoMensaje == TIPO_SELECCION_NOMBRE) {
+		bool nombreEnUso = validarNombreEnUso(m.texto);
+		if (nombreEnUso) {
+			enviarNombreEnUso(m.userId, m.texto);
+		} else {
+			agregarUsuarioActivo(m.userId, m.texto);
+		}
+	} else {
+
 	}
 
 }

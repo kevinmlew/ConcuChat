@@ -23,6 +23,10 @@ string Usuario::getNombre(){
 	return nombre;
 }
 
+int Usuario::getId(){
+	return id;
+}
+
 bool Usuario::isActivo() {
 	return activo;
 }

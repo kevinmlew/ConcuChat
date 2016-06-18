@@ -21,6 +21,10 @@ class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	vector<Usuario> usuarios;
 	void procesarMensaje(mensaje m);
 	void agregarConexionDeUsuario(int id);
+	bool validarNombreEnUso(string nombre);
+	void enviarNombreEnUso(int id, string nombre);
+	void agregarUsuarioActivo(int id, string nombre);
+
 public:
 	ManejadorDeMensajes(const string archivo);
 	void notificarNuevaConexion(int id);

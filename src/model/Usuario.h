@@ -21,6 +21,7 @@ public:
 	Usuario(int id);
 	void setNombre(string nombre);
 	string getNombre();
+	int getId();
 	void setActivo(bool activo);
 	bool isActivo();
 	virtual ~Usuario();
