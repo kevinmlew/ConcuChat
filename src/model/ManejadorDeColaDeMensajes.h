@@ -19,6 +19,7 @@ class ManejadorDeColaDeMensajes {
 protected:
 	Cola<mensaje> colaDeMensajes;
 	bool gracefulQuit;
+	int tipoALeer;
 	virtual void procesarMensaje(mensaje m) = 0;
 
 public:

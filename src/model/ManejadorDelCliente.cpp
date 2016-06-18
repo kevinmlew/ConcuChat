@@ -16,7 +16,9 @@ ManejadorDelCliente::ManejadorDelCliente(const string archivo) : ManejadorDeCola
 
 }
 
-void ManejadorDelCliente::procesarMensaje(mensaje m) {}
+void ManejadorDelCliente::procesarMensaje(mensaje m) {
+	cout << m.texto << endl;
+}
 
 void ManejadorDelCliente::conectar(string colaConexion) {
 	Cola<mensaje> colaDeConexiones(colaConexion, 'a');
@@ -32,14 +34,16 @@ void ManejadorDelCliente::conectar(string colaConexion) {
 	colaDeConexiones.escribir(mensajeConexion);
 	colaDeConexiones.leer(REGISTRAR_USUARIO, &respuesta);
 	//TODO Liberar lock1
-	this->usuario = new Usuario(respuesta.userId);
+	this->tipoALeer = atoi(respuesta.texto);
+	this->usuario = new Usuario(atoi(respuesta.texto));
 }
 
 void ManejadorDelCliente::login() {
 
 	mensaje mensajeLogin;
 	mensajeLogin.mtype = MENSAJE_A_SERVIDOR;
-	mensajeLogin.userId = USUARIO_NO_REGISTRADO;
+	mensajeLogin.tipoMensaje = TIPO_SELECCION_NOMBRE;
+	mensajeLogin.userId = usuario->getId();
 	mensaje respuesta;
 	string nombre;
 
@@ -50,16 +54,36 @@ void ManejadorDelCliente::login() {
 		strcpy(mensajeLogin.texto, nombre.c_str());
 		//TODO Tomar lock2
 		colaDeMensajes.escribir(mensajeLogin);
-		colaDeMensajes.leer(REGISTRAR_USUARIO, &respuesta);
+		colaDeMensajes.leer(tipoALeer, &respuesta);
 		//TODO Liberar lock2
-		if(respuesta.status == STATUS_OK) {
-			cout << respuesta.texto << endl; // Mensaje de bienvenida
+		if(respuesta.status == STATUS_ERROR) {
+			cout << respuesta.texto << endl; // Mensaje de error
+		} else {
+			cout << respuesta.texto << endl; // Historial
 			this->usuario->setNombre(nombre);
 			nombreExistente = false;
-		} else {
-			cout << "Ya existe usuario con ese nombre" << endl;
 		}
 	}
+}
+
+void ManejadorDelCliente::manejarEscritura() {
+	mensaje m;
+	string entrada;
+	bool enChat = true;
+	m.mtype = MENSAJE_A_SERVIDOR;
+	m.tipoMensaje = TIPO_CHAT;
+	m.userId = usuario->getId();
+	while (enChat) {
+		cin >> entrada;
+		if ( entrada == "exit") {
+			enChat = false;
+			m.tipoMensaje = TIPO_SALIR;
+		}
+		strcpy(m.texto, entrada.c_str());
+		colaDeMensajes.escribir(m);
+
+	}
+
 }
 
 ManejadorDelCliente::~ManejadorDelCliente() {

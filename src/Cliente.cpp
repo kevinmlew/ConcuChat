@@ -24,6 +24,15 @@ int main() {
 	manejador.conectar(ARCHIVO_COLA_CONEX);
 	manejador.login();
 
+	pid_t pid = fork();
+	if (pid == 0){
+		//Manejar mensajes entrantes
+		manejador.run();
+	} else {
+		//Manejar escritura de mensajes
+		manejador.manejarEscritura();
+	}
+
 	// Test cola de conexiones
     /**Cola<mensaje> colaDeMensajes("colaDeMensajes", 'a');
 

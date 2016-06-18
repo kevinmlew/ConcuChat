@@ -23,7 +23,7 @@ private:
 	void procesarMensaje(mensaje m);
 public:
 	ManejadorDelCliente(const string archivo);
-	void run();
+	void manejarEscritura();
 	void conectar(string colaConexion);
 	void login();
 	virtual ~ManejadorDelCliente();
