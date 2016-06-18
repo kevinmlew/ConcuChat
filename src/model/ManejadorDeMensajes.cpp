@@ -30,7 +30,7 @@ void ManejadorDeMensajes::agregarConexionDeUsuario(int id) {
 }
 
 bool ManejadorDeMensajes::validarNombreEnUso(string nombre) {
-	for (int i = 0 ; i < this->usuarios.size(); i++)
+	for (unsigned int i = 0 ; i < this->usuarios.size(); i++)
 		if (usuarios.at(i).getNombre() == nombre) return true;
 	return false;
 }
@@ -46,13 +46,22 @@ void ManejadorDeMensajes::enviarNombreEnUso(int id, string nombre){
 }
 
 void ManejadorDeMensajes::agregarUsuarioActivo(int id, string nombre) {
-	for (int i = 0 ; i < this->usuarios.size(); i++){
+	for (unsigned int i = 0 ; i < this->usuarios.size(); i++){
 		if (usuarios.at(i).getId() == id){
 			usuarios.at(i).setActivo(true);
 			usuarios.at(i).setNombre(nombre);
 			return;
 		}
 	}
+}
+
+string ManejadorDeMensajes::getNombreDeUsuario(int id) {
+	for (unsigned int i = 0 ; i < this->usuarios.size(); i++){
+		if (usuarios.at(i).getId() == id){
+			return usuarios[i].getNombre();
+		}
+	}
+	return "";
 }
 
 void ManejadorDeMensajes::procesarMensaje(mensaje m) {
@@ -65,10 +74,29 @@ void ManejadorDeMensajes::procesarMensaje(mensaje m) {
 		} else {
 			agregarUsuarioActivo(m.userId, m.texto);
 		}
-	} else {
-
+	} else if (m.tipoMensaje == TIPO_CHAT){
+		enviarMensajeAUsuarios(m.userId, getNombreDeUsuario(m.userId), m.texto);
 	}
 
+}
+
+void ManejadorDeMensajes::enviarMensajeAUsuarios(int autorId, string autorNombre, string msg) {
+	string msgCompleto = autorNombre + ": " + msg;
+	for (unsigned int i = 0 ; i < this->usuarios.size(); i++){
+		if (usuarios[i].getId() != autorId){
+			enviarMensaje(usuarios[i].getId(), msgCompleto);
+		}
+
+	}
+}
+
+void ManejadorDeMensajes::enviarMensaje(int idDestino, string msg){
+	mensaje men;
+	men.status = STATUS_OK;
+	men.mtype = idDestino;
+	men.tipoMensaje = TIPO_CHAT;
+	strcpy(men.texto, msg.c_str());
+	colaDeMensajes.escribir(men);
 }
 
 ManejadorDeMensajes::~ManejadorDeMensajes() {
