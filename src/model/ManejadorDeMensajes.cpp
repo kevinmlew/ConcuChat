@@ -73,18 +73,34 @@ void ManejadorDeMensajes::procesarMensaje(mensaje m) {
 			enviarNombreEnUso(m.userId, m.texto);
 		} else {
 			agregarUsuarioActivo(m.userId, m.texto);
+			enviarHistorial(m.userId);
 		}
 	} else if (m.tipoMensaje == TIPO_CHAT){
 		string msgCompleto =  getNombreDeUsuario(m.userId) + ": " + m.texto;
 		guardarMensajeEnHistorial(msgCompleto);
 		enviarMensajeAUsuarios(m.userId, msgCompleto);
 	} else if (m.tipoMensaje == TIPO_SALIR) {
-
+		eliminarUsuario(m.userId);
 	}
 
 }
 
+void ManejadorDeMensajes::eliminarUsuario(int userId){
+	usuarios.erase(usuarios.begin() + getIndiceDeUsuario(userId));
+}
+
+int ManejadorDeMensajes::getIndiceDeUsuario(int userId){
+	for (unsigned int i = 0; i < usuarios.size(); i++){
+		if (userId == usuarios[i].getId()) return i;
+	}
+	return -1;
+}
+
 void ManejadorDeMensajes::guardarMensajeEnHistorial(string mensajeCompleto){
+	//TODO
+}
+
+void ManejadorDeMensajes::enviarHistorial(int userId){
 	//TODO
 }
 

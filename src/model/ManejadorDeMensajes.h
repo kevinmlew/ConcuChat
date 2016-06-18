@@ -28,6 +28,9 @@ class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	void enviarMensajeAUsuarios(int autorId, string msg);
 	void enviarMensaje(int idAutor, string msg);
 	void guardarMensajeEnHistorial(string msg);
+	void enviarHistorial(int id);
+	void eliminarUsuario(int userId);
+	int getIndiceDeUsuario(int userId);
 
 public:
 	ManejadorDeMensajes(const string archivo);
