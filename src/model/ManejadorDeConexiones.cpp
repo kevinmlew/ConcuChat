@@ -9,7 +9,7 @@
 
 #include <cstring>
 
-#include "ManejadorDeMensajes.h"
+#include "../log/Logger.h"
 #include "Mensaje.h"
 
 int ManejadorDeConexiones::cantidadDeUsuarios = 1; //Tiene que empezar en 1 porque el server es un usuario
@@ -36,6 +36,7 @@ void ManejadorDeConexiones::procesarMensaje(mensaje m) {
 	cantidadDeUsuarios++;
 	enviarNuevaConexionAlManejadorDeMensajes();
 	enviarIdAlUsuario();
+	Logger::insert(Logger::TYPE_INFO, "Se conecto un nuevo usuario, se le asigna el ID: " + cantidadDeUsuarios);
 }
 
 ManejadorDeConexiones::~ManejadorDeConexiones() {

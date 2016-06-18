@@ -11,6 +11,7 @@
 #include <cstring>
 #include <iterator>
 
+#include "../log/Logger.h"
 #include "Historial.h"
 #include "Mensaje.h"
 
@@ -30,6 +31,7 @@ void ManejadorDeMensajes::notificarNuevaConexion(int id) {
 void ManejadorDeMensajes::agregarConexionDeUsuario(int id) {
 	Usuario user(id);
 	usuarios.push_back(user);
+	Logger::insert(Logger::TYPE_INFO, "Se conecto un nuevo usuario con ID: " + id);
 }
 
 bool ManejadorDeMensajes::validarNombreEnUso(string nombre) {
@@ -39,6 +41,8 @@ bool ManejadorDeMensajes::validarNombreEnUso(string nombre) {
 }
 
 void ManejadorDeMensajes::enviarNombreEnUso(int id, string nombre){
+	Logger::insert(Logger::TYPE_INFO, "Se conecto un nuevo usuario con username: " + nombre +
+			" pero ya se encuentra en uso");
 	mensaje m;
 	m.status = STATUS_ERROR;
 	m.mtype = id;
@@ -59,6 +63,7 @@ void ManejadorDeMensajes::enviarNombreDisponible(int id){
 }
 
 void ManejadorDeMensajes::agregarUsuarioActivo(int id, string nombre) {
+	Logger::insert(Logger::TYPE_INFO, "Se conecto un nuevo usuario con nombre: " + nombre);
 	for (unsigned int i = 0 ; i < this->usuarios.size(); i++){
 		if (usuarios.at(i).getId() == id){
 			usuarios.at(i).setActivo(true);
@@ -100,6 +105,7 @@ void ManejadorDeMensajes::procesarMensaje(mensaje m) {
 }
 
 void ManejadorDeMensajes::eliminarUsuario(int userId){
+	Logger::insert(Logger::TYPE_INFO, "Se desconecto un usuario con ID: " + userId);
 	usuarios.erase(usuarios.begin() + getIndiceDeUsuario(userId));
 }
 
