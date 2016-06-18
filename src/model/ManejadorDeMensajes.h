@@ -25,6 +25,7 @@ class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	void agregarConexionDeUsuario(int id);
 	bool validarNombreEnUso(string nombre);
 	void enviarNombreEnUso(int id, string nombre);
+	void enviarNombreDisponible(int id);
 	void agregarUsuarioActivo(int id, string nombre);
 	string getNombreDeUsuario(int id);
 	void enviarMensajeAUsuarios(int autorId, string msg);

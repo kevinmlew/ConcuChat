@@ -48,6 +48,16 @@ void ManejadorDeMensajes::enviarNombreEnUso(int id, string nombre){
 	colaDeMensajes.escribir(m);
 }
 
+void ManejadorDeMensajes::enviarNombreDisponible(int id){
+	mensaje m;
+	m.status = STATUS_OK;
+	m.mtype = id;
+	m.tipoMensaje = TIPO_SELECCION_NOMBRE;
+	string txt = "Bienvenido!";
+	strcpy(m.texto, txt.c_str());
+	colaDeMensajes.escribir(m);
+}
+
 void ManejadorDeMensajes::agregarUsuarioActivo(int id, string nombre) {
 	for (unsigned int i = 0 ; i < this->usuarios.size(); i++){
 		if (usuarios.at(i).getId() == id){
@@ -76,6 +86,7 @@ void ManejadorDeMensajes::procesarMensaje(mensaje m) {
 			enviarNombreEnUso(m.userId, m.texto);
 		} else {
 			agregarUsuarioActivo(m.userId, m.texto);
+			enviarNombreDisponible(m.userId);
 			enviarHistorial(m.userId);
 		}
 	} else if (m.tipoMensaje == TIPO_CHAT){

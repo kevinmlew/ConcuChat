@@ -45,13 +45,11 @@ void ManejadorDelCliente::login() {
 	mensajeLogin.tipoMensaje = TIPO_SELECCION_NOMBRE;
 	mensajeLogin.userId = usuario->getId();
 	mensaje respuesta;
-	string nombre;
 
 	bool nombreExistente = true;
 	while(nombreExistente) {
 		cout << "Ingrese nombre de usuario: ";
-		cin >> nombre;
-		strcpy(mensajeLogin.texto, nombre.c_str());
+		cin.getline(mensajeLogin.texto, sizeof(mensajeLogin.texto));
 		//TODO Tomar lock2
 		colaDeMensajes.escribir(mensajeLogin);
 		colaDeMensajes.leer(tipoALeer, &respuesta);
@@ -59,8 +57,8 @@ void ManejadorDelCliente::login() {
 		if(respuesta.status == STATUS_ERROR) {
 			cout << respuesta.texto << endl; // Mensaje de error
 		} else {
-			cout << respuesta.texto << endl; // Historial
-			this->usuario->setNombre(nombre);
+			cout << respuesta.texto << endl; // Mensaje de bienvenida
+			this->usuario->setNombre(mensajeLogin.texto);
 			nombreExistente = false;
 		}
 	}
@@ -68,18 +66,16 @@ void ManejadorDelCliente::login() {
 
 void ManejadorDelCliente::manejarEscritura() {
 	mensaje m;
-	string entrada;
 	bool enChat = true;
 	m.mtype = MENSAJE_A_SERVIDOR;
 	m.tipoMensaje = TIPO_CHAT;
 	m.userId = usuario->getId();
 	while (enChat) {
-		cin >> entrada;
-		if ( entrada == "exit") {
+		cin.getline(m.texto, sizeof(m.texto));
+		if ( strcmp(m.texto,"exit") == 0) {
 			enChat = false;
 			m.tipoMensaje = TIPO_SALIR;
 		}
-		strcpy(m.texto, entrada.c_str());
 		colaDeMensajes.escribir(m);
 
 	}
