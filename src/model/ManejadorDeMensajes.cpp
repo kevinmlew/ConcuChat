@@ -75,13 +75,20 @@ void ManejadorDeMensajes::procesarMensaje(mensaje m) {
 			agregarUsuarioActivo(m.userId, m.texto);
 		}
 	} else if (m.tipoMensaje == TIPO_CHAT){
-		enviarMensajeAUsuarios(m.userId, getNombreDeUsuario(m.userId), m.texto);
+		string msgCompleto =  getNombreDeUsuario(m.userId) + ": " + m.texto;
+		guardarMensajeEnHistorial(msgCompleto);
+		enviarMensajeAUsuarios(m.userId, msgCompleto);
+	} else if (m.tipoMensaje == TIPO_SALIR) {
+
 	}
 
 }
 
-void ManejadorDeMensajes::enviarMensajeAUsuarios(int autorId, string autorNombre, string msg) {
-	string msgCompleto = autorNombre + ": " + msg;
+void ManejadorDeMensajes::guardarMensajeEnHistorial(string mensajeCompleto){
+	//TODO
+}
+
+void ManejadorDeMensajes::enviarMensajeAUsuarios(int autorId, string msgCompleto) {
 	for (unsigned int i = 0 ; i < this->usuarios.size(); i++){
 		if (usuarios[i].getId() != autorId){
 			enviarMensaje(usuarios[i].getId(), msgCompleto);
