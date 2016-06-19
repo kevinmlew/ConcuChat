@@ -9,6 +9,7 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <signal.h>
 
 #include "ipc/Cola.h"
 #include "model/Mensaje.h"
@@ -31,6 +32,8 @@ int main() {
 	} else {
 		//Manejar escritura de mensajes
 		manejador.manejarEscritura();
+		kill(pid, SIGINT);
+
 	}
 
 	return 0;

@@ -25,6 +25,7 @@ class ManejadorDeConexiones : public ManejadorDeColaDeMensajes {
 	void enviarNuevaConexionAlManejadorDeMensajes();
 public:
 	ManejadorDeConexiones(const string archivoConex, ManejadorDeMensajes* manejador);
+	void cerrarColas();
 	virtual ~ManejadorDeConexiones();
 };
 

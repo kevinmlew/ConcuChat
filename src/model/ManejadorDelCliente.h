@@ -10,6 +10,7 @@
 
 #include "ManejadorDeColaDeMensajes.h"
 #include "../ipc/Cola.h"
+#include "../ipc/LockFile.h"
 #include "Mensaje.h"
 #include "Usuario.h"
 
@@ -20,6 +21,7 @@ using namespace std;
 class ManejadorDelCliente : public ManejadorDeColaDeMensajes{
 private:
 	Usuario* usuario;
+	LockFile lock;
 	void procesarMensaje(mensaje m);
 public:
 	ManejadorDelCliente(const string archivo);

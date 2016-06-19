@@ -29,9 +29,12 @@ int main() {
 		//Manejar conexiones entrantes
 		ManejadorDeConexiones manejadorDeConexiones(ARCHIVO_COLA_CONEX, &manejadorDeMensajes);
 		manejadorDeConexiones.run();
+		manejadorDeConexiones.cerrarCola();
+		manejadorDeMensajes.cerrarCola();
 	} else {
 		//Manejar mensajes de usuarios logueados
 		manejadorDeMensajes.run();
+		kill(pid, SIGINT);
 	}
 
 	return 0;

@@ -10,9 +10,9 @@
 #include <iostream>
 #include <cstring>
 
+#define ARCHIVO_LOCK "lock"
 
-ManejadorDelCliente::ManejadorDelCliente(const string archivo) : ManejadorDeColaDeMensajes(archivo), usuario(NULL){
-	// TODO Auto-generated constructor stub
+ManejadorDelCliente::ManejadorDelCliente(const string archivo) : ManejadorDeColaDeMensajes(archivo), usuario(NULL), lock(ARCHIVO_LOCK) {
 
 }
 
@@ -30,10 +30,10 @@ void ManejadorDelCliente::conectar(string colaConexion) {
 	strcpy(mensajeConexion.texto, texto.c_str());
 	mensaje respuesta;
 
-	//TODO Tomar lock1
+	lock.tomarLock(0);
 	colaDeConexiones.escribir(mensajeConexion);
 	colaDeConexiones.leer(REGISTRAR_USUARIO, &respuesta);
-	//TODO Liberar lock1
+	lock.liberarLock(0);
 	this->tipoALeer = atoi(respuesta.texto);
 	this->usuario = new Usuario(atoi(respuesta.texto));
 }
@@ -50,10 +50,10 @@ void ManejadorDelCliente::login() {
 	while(nombreExistente) {
 		cout << "Ingrese nombre de usuario: ";
 		cin.getline(mensajeLogin.texto, sizeof(mensajeLogin.texto));
-		//TODO Tomar lock2
+		lock.tomarLock(1);
 		colaDeMensajes.escribir(mensajeLogin);
 		colaDeMensajes.leer(tipoALeer, &respuesta);
-		//TODO Liberar lock2
+		lock.liberarLock(1);
 		if(respuesta.status == STATUS_ERROR) {
 			cout << respuesta.texto << endl; // Mensaje de error
 		} else {
@@ -83,6 +83,6 @@ void ManejadorDelCliente::manejarEscritura() {
 }
 
 ManejadorDelCliente::~ManejadorDelCliente() {
-	// TODO Auto-generated destructor stub
+	delete usuario;
 }
 
