@@ -121,22 +121,28 @@ void ManejadorDeMensajes::guardarMensajeEnHistorial(string mensajeCompleto){
 }
 
 void ManejadorDeMensajes::enviarHistorial(int userId){
-	string resto = this->historial->getHistorial();
-	while (resto.size() >= TEXTO_SIZE) {
-		string parte = resto.substr(0, TEXTO_SIZE - 1);
-		resto = resto.substr(TEXTO_SIZE - 1, resto.size() - 1);
-		enviarParteHistorial(STATUS_INCOMPLETO, parte, userId);
-	}
-	enviarParteHistorial(STATUS_OK, resto, userId);
-}
-
-void ManejadorDeMensajes::enviarParteHistorial(int status, string parte, int userId){
+	string historial = this->historial->getHistorial();
 	mensaje m;
-	m.status = status;
+	m.status = STATUS_OK;
 	m.mtype = userId;
 	m.tipoMensaje = TIPO_HISTORIAL;
-	strcpy(m.texto, parte.c_str());
-	colaDeMensajes.escribir(m);
+	enviarParteMensaje(m, historial);
+}
+
+void ManejadorDeMensajes::enviarParteMensaje(mensaje msg, string parte){
+	if (parte.size() <= TEXTO_SIZE) {
+		strcpy(msg.texto, parte.c_str());
+		colaDeMensajes.escribir(msg);
+	} else {
+		int statusAux = msg.status;
+		string primeraParte = parte.substr(0, TEXTO_SIZE - 1);
+		msg.status = STATUS_INCOMPLETO;
+		enviarParteMensaje(msg, primeraParte);
+		msg.status = statusAux;
+		string resto = parte.substr(TEXTO_SIZE - 1, parte.size() - 1);
+		enviarParteMensaje(msg, resto);
+	}
+
 }
 
 void ManejadorDeMensajes::enviarMensajeAUsuarios(int autorId, string msgCompleto) {
@@ -153,8 +159,7 @@ void ManejadorDeMensajes::enviarMensaje(int idDestino, string msg){
 	men.status = STATUS_OK;
 	men.mtype = idDestino;
 	men.tipoMensaje = TIPO_CHAT;
-	strcpy(men.texto, msg.c_str());
-	colaDeMensajes.escribir(men);
+	enviarParteMensaje(men, msg);
 }
 
 ManejadorDeMensajes::~ManejadorDeMensajes() {
