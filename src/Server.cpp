@@ -17,6 +17,7 @@
 using namespace std;
 
 #define ARCHIVO_COLA_MENSAJES "colaDeMensajes"
+#define ARCHIVO_LOCK_COLA_MENSAJES "colaDeMensajesLock"
 #define ARCHIVO_COLA_CONEX "colaDeConexiones"
 #define ARCHIVO_HISTORIAL "historial"
 
@@ -24,7 +25,7 @@ int main() {
 	//El manejador de mensajes se usa en ambos procesos
 	Historial historial(ARCHIVO_HISTORIAL);
 	try {
-		ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES, &historial);
+		ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES, &historial, ARCHIVO_LOCK_COLA_MENSAJES);
 		Logger::insert(Logger::TYPE_DEBUG, "Manejador De Mensajes iniciado");
 		pid_t pid = fork();
 		if (pid == 0){

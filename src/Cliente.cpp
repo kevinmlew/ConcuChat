@@ -18,10 +18,11 @@
 using namespace std;
 
 #define ARCHIVO_COLA_MENSAJES "colaDeMensajes"
+#define ARCHIVO_LOCK_COLA_MENSAJES "colaDeMensajesLock"
 #define ARCHIVO_COLA_CONEX "colaDeConexiones"
 
 int main() {
-	ManejadorDelCliente manejador(ARCHIVO_COLA_MENSAJES);
+	ManejadorDelCliente manejador(ARCHIVO_COLA_MENSAJES, ARCHIVO_LOCK_COLA_MENSAJES);
 	manejador.conectar(ARCHIVO_COLA_CONEX);
 	manejador.login();
 

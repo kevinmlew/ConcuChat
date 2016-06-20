@@ -12,7 +12,8 @@
 
 #define ARCHIVO_LOCK "lock"
 
-ManejadorDelCliente::ManejadorDelCliente(const string archivo) : ManejadorDeColaDeMensajes(archivo), usuario(NULL), lock(ARCHIVO_LOCK) {
+ManejadorDelCliente::ManejadorDelCliente(const string archivo, const string archivoLockMensajes)
+: ManejadorDeColaDeMensajes(archivo), usuario(NULL), lock(ARCHIVO_LOCK), lockMensajes(archivoLockMensajes) {
 
 }
 

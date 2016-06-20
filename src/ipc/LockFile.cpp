@@ -1,13 +1,18 @@
 #include "LockFile.h"
 
-#include "../exceptions/LockException.h"
+#include <asm-generic/errno-base.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <cerrno>
+#include <cstdio>
+
+#include "../exceptions/LockException.h"
+#include "FileHelper.h"
 
 #define ARCHIVO_LOCK_EXT "tmp"
 
 LockFile :: LockFile ( const std::string nombre ) {
 	std::string nombreCompleto = FileHelper::crearArchivo(nombre, ARCHIVO_LOCK_EXT);
-	this->creadorPid = getpid();
 	this->nombre = nombre;
 	this->fl.l_type = F_WRLCK;
 	this->fl.l_whence = SEEK_SET;
@@ -35,9 +40,11 @@ int LockFile :: liberarLock (int pos) {
 	return resultado;
 }
 
+void LockFile :: destruirArchivoLock(){
+	FileHelper::borrarArchivo(this->nombre, ARCHIVO_LOCK_EXT);
+}
+
 LockFile :: ~LockFile () {
 	close ( this->fd );
-	if (this->creadorPid == getpid())
-		FileHelper::borrarArchivo(this->nombre, ARCHIVO_LOCK_EXT);
 }
 

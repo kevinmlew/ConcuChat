@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+#include "../ipc/LockFile.h"
 #include "ManejadorDeColaDeMensajes.h"
 #include "Usuario.h"
 
@@ -21,6 +22,7 @@ using namespace std;
 class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	vector<Usuario> usuarios;
 	Historial* historial;
+	LockFile lockMensajes;
 	void procesarMensaje(mensaje m);
 	void agregarConexionDeUsuario(int id);
 	bool validarNombreEnUso(string nombre);
@@ -37,7 +39,7 @@ class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	void enviarParteMensaje(mensaje msg, string parte);
 
 public:
-	ManejadorDeMensajes(const string archivo, Historial* historial);
+	ManejadorDeMensajes(const string archivo, Historial* historial, const string archivoLockMensajes);
 	void notificarNuevaConexion(int id);
 	virtual ~ManejadorDeMensajes();
 };

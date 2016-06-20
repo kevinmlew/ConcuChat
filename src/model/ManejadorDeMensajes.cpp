@@ -15,8 +15,8 @@
 #include "Historial.h"
 #include "Mensaje.h"
 
-ManejadorDeMensajes::ManejadorDeMensajes(const string archivo, Historial* historial)
-: ManejadorDeColaDeMensajes(archivo) {
+ManejadorDeMensajes::ManejadorDeMensajes(const string archivo, Historial* historial, const string archivoLockMensajes)
+: ManejadorDeColaDeMensajes(archivo), lockMensajes(archivoLockMensajes) {
 	this->historial = historial;
 }
 
@@ -126,23 +126,7 @@ void ManejadorDeMensajes::enviarHistorial(int userId){
 	m.status = STATUS_OK;
 	m.mtype = userId;
 	m.tipoMensaje = TIPO_HISTORIAL;
-	enviarParteMensaje(m, historial);
-}
-
-void ManejadorDeMensajes::enviarParteMensaje(mensaje msg, string parte){
-	if (parte.size() <= TEXTO_SIZE) {
-		strcpy(msg.texto, parte.c_str());
-		colaDeMensajes.escribir(msg);
-	} else {
-		int statusAux = msg.status;
-		string primeraParte = parte.substr(0, TEXTO_SIZE - 1);
-		msg.status = STATUS_INCOMPLETO;
-		enviarParteMensaje(msg, primeraParte);
-		msg.status = statusAux;
-		string resto = parte.substr(TEXTO_SIZE - 1, parte.size() - 1);
-		enviarParteMensaje(msg, resto);
-	}
-
+	enviarParteMensajeConLock(m, historial, &lockMensajes);
 }
 
 void ManejadorDeMensajes::enviarMensajeAUsuarios(int autorId, string msgCompleto) {
@@ -159,9 +143,10 @@ void ManejadorDeMensajes::enviarMensaje(int idDestino, string msg){
 	men.status = STATUS_OK;
 	men.mtype = idDestino;
 	men.tipoMensaje = TIPO_CHAT;
-	enviarParteMensaje(men, msg);
+	enviarParteMensajeConLock(men, msg, &lockMensajes);
 }
 
 ManejadorDeMensajes::~ManejadorDeMensajes() {
+	lockMensajes.destruirArchivoLock();
 }
 

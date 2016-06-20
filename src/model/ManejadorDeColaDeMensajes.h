@@ -11,9 +11,10 @@
 #include <string>
 
 #include "../ipc/Cola.h"
-#include "../ipc/SignalHandler.h"
 #include "../ipc/SIGINT_Handler.h"
 #include "Mensaje.h"
+
+class LockFile;
 
 using namespace std;
 
@@ -23,6 +24,8 @@ protected:
 	SIGINT_Handler sigint_handler;
 	int tipoALeer;
 	virtual void procesarMensaje(mensaje m) = 0;
+	void enviarParteMensaje(mensaje msg, string parte);
+	void enviarParteMensajeConLock(mensaje msg, string parte, LockFile* lock);
 
 public:
 	ManejadorDeColaDeMensajes(const string archivo);

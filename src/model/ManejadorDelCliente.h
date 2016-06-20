@@ -22,9 +22,10 @@ class ManejadorDelCliente : public ManejadorDeColaDeMensajes{
 private:
 	Usuario* usuario;
 	LockFile lock;
+	LockFile lockMensajes;
 	void procesarMensaje(mensaje m);
 public:
-	ManejadorDelCliente(const string archivo);
+	ManejadorDelCliente(const string archivo, const string archivoLockMensajes);
 	void manejarEscritura();
 	void conectar(string colaConexion);
 	void login();

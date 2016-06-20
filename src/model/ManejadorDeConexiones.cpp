@@ -14,6 +14,8 @@
 
 int ManejadorDeConexiones::cantidadDeUsuarios = 1; //Tiene que empezar en 1 porque el server es un usuario
 
+#define ARCHIVO_LOCK "lock"
+
 ManejadorDeConexiones::ManejadorDeConexiones(const string archivoConexiones, ManejadorDeMensajes* manejador) :
 		ManejadorDeColaDeMensajes(archivoConexiones){
 	manejadorDeMensajes = manejador;
@@ -40,5 +42,7 @@ void ManejadorDeConexiones::procesarMensaje(mensaje m) {
 }
 
 ManejadorDeConexiones::~ManejadorDeConexiones() {
+	LockFile lock(ARCHIVO_LOCK);
+	lock.destruirArchivoLock();
 }
 
