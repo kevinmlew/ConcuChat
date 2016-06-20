@@ -7,8 +7,8 @@
 //============================================================================
 
 #include <unistd.h>
-#include <csignal>
 
+#include "exceptions/IPCException.h"
 #include "log/Logger.h"
 #include "model/Historial.h"
 #include "model/ManejadorDeConexiones.h"
@@ -34,11 +34,10 @@ int main() {
 			Logger::insert(Logger::TYPE_DEBUG, "Manejador De Conexiones iniciado");
 			manejadorDeConexiones.run();
 			manejadorDeConexiones.cerrarCola();
-			manejadorDeMensajes.cerrarCola();
 		} else {
 			//Manejar mensajes de usuarios logueados
 			manejadorDeMensajes.run();
-			kill(pid, SIGINT);
+			manejadorDeMensajes.cerrarCola();
 		}
 	} catch (IPCException& e){
 		Logger::insertError(e.what(), e.getCode());

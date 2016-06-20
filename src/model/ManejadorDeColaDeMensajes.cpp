@@ -15,8 +15,11 @@ ManejadorDeColaDeMensajes::ManejadorDeColaDeMensajes(const string archivo): cola
 
 void ManejadorDeColaDeMensajes::run() {
 	mensaje m;
+	int resultado;
 	while(sigint_handler.getGracefulQuit() == 0) {
-		colaDeMensajes.leer(tipoALeer, &m);
+		resultado = colaDeMensajes.leer(tipoALeer, &m);
+		if (resultado == -1)
+			continue;
 		procesarMensaje(m);
 	}
 }

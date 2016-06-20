@@ -55,8 +55,8 @@ template <class T> int Cola<T> :: escribir ( const T& dato ) const {
 
 template <class T> int Cola<T> :: leer ( const int tipo,T* buffer ) const {
 	int resultado = msgrcv ( this->id,static_cast<void *>(buffer),sizeof(T)-sizeof(long),tipo,0 );
-	if (resultado == -1)
-			throw ColaException(ColaException::TYPE_LEER, errno);
+	if (resultado == -1 && errno != EINTR)
+		throw ColaException(ColaException::TYPE_LEER, errno);
 	return resultado;
 }
 
