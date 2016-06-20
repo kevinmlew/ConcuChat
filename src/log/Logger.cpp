@@ -81,5 +81,6 @@ string Logger::getDatetime() {
 
 
 Logger::~Logger() {
+	lock.destruirArchivoLock();
 }
 
