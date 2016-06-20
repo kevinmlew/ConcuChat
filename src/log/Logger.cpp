@@ -15,7 +15,7 @@
 string Logger::TYPE_INFO = "INFO";
 string Logger::TYPE_DEBUG = "DEBUG";
 string Logger::TYPE_ERROR = "ERROR";
-bool Logger::MODE_DEBUG = false;
+bool Logger::MODE_DEBUG = true;
 Logger* Logger::instance = NULL;
 
 #define LOG_FILE "concuchat.log"

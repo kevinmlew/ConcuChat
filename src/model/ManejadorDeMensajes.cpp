@@ -121,12 +121,21 @@ void ManejadorDeMensajes::guardarMensajeEnHistorial(string mensajeCompleto){
 }
 
 void ManejadorDeMensajes::enviarHistorial(int userId){
-	string histo = this->historial->getHistorial();
+	string resto = this->historial->getHistorial();
+	while (resto.size() >= TEXTO_SIZE) {
+		string parte = resto.substr(0, TEXTO_SIZE - 1);
+		resto = resto.substr(TEXTO_SIZE - 1, resto.size() - 1);
+		enviarParteHistorial(STATUS_INCOMPLETO, parte, userId);
+	}
+	enviarParteHistorial(STATUS_OK, resto, userId);
+}
+
+void ManejadorDeMensajes::enviarParteHistorial(int status, string parte, int userId){
 	mensaje m;
-	m.status = STATUS_OK;
+	m.status = status;
 	m.mtype = userId;
 	m.tipoMensaje = TIPO_HISTORIAL;
-	strcpy(m.texto, histo.c_str());
+	strcpy(m.texto, parte.c_str());
 	colaDeMensajes.escribir(m);
 }
 

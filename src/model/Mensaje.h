@@ -22,15 +22,16 @@
 
 #define STATUS_OK 0
 #define STATUS_ERROR -1
+#define STATUS_INCOMPLETO 1
 
 #define TEXTO_SIZE 255
 
 typedef struct mensaje {
-	long mtype;
-	int tipoMensaje;
-	int userId;
+	long mtype; //Tipo de mensaje a enviar segun cola (id del receptor)
+	int tipoMensaje; //Tipo del mensaje a enviar
+	int userId; //Autor del mensaje
 	int status;
-	char texto [TEXTO_SIZE];
+	char texto [TEXTO_SIZE]; //Contenido del mensaje
 } mensaje;
 
 #endif /* MODEL_MENSAJE_H_ */
