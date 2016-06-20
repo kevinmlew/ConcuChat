@@ -77,7 +77,9 @@ void ManejadorDelCliente::manejarEscritura() {
 			enChat = false;
 			m.tipoMensaje = TIPO_SALIR;
 		}
-		colaDeMensajes.escribir(m);
+
+		enviarParteMensajeConLock(m, m.texto, &lockMensajes);
+		//colaDeMensajes.escribir(m);
 
 	}
 
