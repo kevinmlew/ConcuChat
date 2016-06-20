@@ -37,6 +37,7 @@ class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	void eliminarUsuario(int userId);
 	int getIndiceDeUsuario(int userId);
 	void enviarParteMensaje(mensaje msg, string parte);
+	void broadcastMensaje(string msg);
 
 public:
 	ManejadorDeMensajes(const string archivo, Historial* historial, const string archivoLockMensajes);

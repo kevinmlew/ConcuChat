@@ -91,6 +91,8 @@ void ManejadorDeMensajes::procesarMensaje(mensaje m) {
 			enviarNombreEnUso(m.userId, m.texto);
 		} else {
 			agregarUsuarioActivo(m.userId, m.texto);
+			string nombre (m.texto);
+			broadcastMensaje("--SERVER--: " + nombre + " se acaba de loguear.");
 			enviarNombreDisponible(m.userId);
 			enviarHistorial(m.userId);
 		}
@@ -100,6 +102,7 @@ void ManejadorDeMensajes::procesarMensaje(mensaje m) {
 		enviarMensajeAUsuarios(m.userId, msgCompleto);
 	} else if (m.tipoMensaje == TIPO_SALIR) {
 		eliminarUsuario(m.userId);
+		broadcastMensaje("--SERVER--: " + getNombreDeUsuario(m.userId) + " se acaba de desloguear.");
 	}
 
 }
@@ -134,7 +137,12 @@ void ManejadorDeMensajes::enviarMensajeAUsuarios(int autorId, string msgCompleto
 		if (usuarios[i].isActivo() && usuarios[i].getId() != autorId){
 			enviarMensaje(usuarios[i].getId(), msgCompleto);
 		}
+	}
+}
 
+void ManejadorDeMensajes::broadcastMensaje(string msg){
+	for (unsigned int i = 0 ; i < this->usuarios.size(); i++){
+    	enviarMensaje(usuarios[i].getId(), msg);
 	}
 }
 
