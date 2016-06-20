@@ -25,19 +25,23 @@ int main() {
 
 	//El manejador de mensajes se usa en ambos procesos
 	Historial historial(ARCHIVO_HISTORIAL);
-	ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES, &historial);
-	Logger::insert(Logger::TYPE_DEBUG, "Manejador De Mensajes iniciado");
-	if (pid == 0){
-		//Manejar conexiones entrantes
-		ManejadorDeConexiones manejadorDeConexiones(ARCHIVO_COLA_CONEX, &manejadorDeMensajes);
-		Logger::insert(Logger::TYPE_DEBUG, "Manejador De Conexiones iniciado");
-		manejadorDeConexiones.run();
-		manejadorDeConexiones.cerrarCola();
-		manejadorDeMensajes.cerrarCola();
-	} else {
-		//Manejar mensajes de usuarios logueados
-		manejadorDeMensajes.run();
-		kill(pid, SIGINT);
+	try {
+		ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES, &historial);
+		Logger::insert(Logger::TYPE_DEBUG, "Manejador De Mensajes iniciado");
+		if (pid == 0){
+			//Manejar conexiones entrantes
+			ManejadorDeConexiones manejadorDeConexiones(ARCHIVO_COLA_CONEX, &manejadorDeMensajes);
+			Logger::insert(Logger::TYPE_DEBUG, "Manejador De Conexiones iniciado");
+			manejadorDeConexiones.run();
+			manejadorDeConexiones.cerrarCola();
+			manejadorDeMensajes.cerrarCola();
+		} else {
+			//Manejar mensajes de usuarios logueados
+			manejadorDeMensajes.run();
+			kill(pid, SIGINT);
+		}
+	} catch (IPCException& e){
+		Logger::insertError(e.what(), e.getCode());
 	}
 
 	return 0;
