@@ -16,6 +16,7 @@ template <class T> class Cola {
 	private:
 		key_t	clave;
 		int		id;
+		std::string nombreArchivo;
 
 	public:
 		Cola ( const std::string& archivo,const char letra );
@@ -27,6 +28,7 @@ template <class T> class Cola {
 
 template <class T> Cola<T> :: Cola ( const std::string& archivo,const char letra ) {
 	std::string nombreCompleto = FileHelper::crearArchivo(archivo, ARCHIVO_COLA_EXT);
+	nombreArchivo = archivo;
 	this->clave = ftok ( nombreCompleto.c_str(),letra );
 	if ( this->clave == -1 )
 		perror ( "Error en ftok" );
@@ -43,6 +45,7 @@ template <class T> int Cola<T> :: destruir () const {
 	int resultado = msgctl ( this->id,IPC_RMID,NULL );
 	if (resultado == -1)
 		throw ColaException(ColaException::TYPE_DESTRUIR, errno);
+	FileHelper::borrarArchivo(nombreArchivo, ARCHIVO_COLA_EXT);
 	return resultado;
 }
 

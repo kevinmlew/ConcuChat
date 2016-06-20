@@ -21,13 +21,12 @@ using namespace std;
 #define ARCHIVO_HISTORIAL "historial"
 
 int main() {
-	pid_t pid = fork();
-
 	//El manejador de mensajes se usa en ambos procesos
 	Historial historial(ARCHIVO_HISTORIAL);
 	try {
 		ManejadorDeMensajes manejadorDeMensajes(ARCHIVO_COLA_MENSAJES, &historial);
 		Logger::insert(Logger::TYPE_DEBUG, "Manejador De Mensajes iniciado");
+		pid_t pid = fork();
 		if (pid == 0){
 			//Manejar conexiones entrantes
 			ManejadorDeConexiones manejadorDeConexiones(ARCHIVO_COLA_CONEX, &manejadorDeMensajes);
@@ -39,6 +38,7 @@ int main() {
 			manejadorDeMensajes.run();
 			manejadorDeMensajes.cerrarCola();
 		}
+		Logger::destruir();
 	} catch (IPCException& e){
 		Logger::insertError(e.what(), e.getCode());
 	}

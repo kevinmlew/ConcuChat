@@ -31,6 +31,13 @@ Logger* Logger::getInstance(){
 	return instance;
 }
 
+void Logger::destruir () {
+	if ( instance != NULL ) {
+		delete ( instance );
+		instance = NULL;
+	}
+}
+
 bool Logger::esNecesarioLoggear(string typeLog){
 	return (Logger::MODE_DEBUG && typeLog == Logger::TYPE_DEBUG);
 }

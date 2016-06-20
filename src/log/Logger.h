@@ -28,6 +28,7 @@ public:
 	static void insert(string typeLog, string message);
 	static void insertError(string message, int errorCode);
 	static void insert(string typeLog, int cod);
+	static void destruir();
 	static string getDatetime();
 	virtual ~Logger();
 
