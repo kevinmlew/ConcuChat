@@ -19,7 +19,7 @@ using namespace std;
 #define ARCHIVO_COLA_MENSAJES "colaDeMensajes"
 #define ARCHIVO_LOCK_COLA_MENSAJES "colaDeMensajesLock"
 #define ARCHIVO_COLA_CONEX "colaDeConexiones"
-#define ARCHIVO_HISTORIAL "historial"
+#define ARCHIVO_HISTORIAL "historial.his"
 
 int main() {
 	//El manejador de mensajes se usa en ambos procesos
