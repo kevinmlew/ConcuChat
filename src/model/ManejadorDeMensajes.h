@@ -23,7 +23,7 @@ class ManejadorDeMensajes : public ManejadorDeColaDeMensajes {
 	vector<Usuario> usuarios;
 	Historial* historial;
 	LockFile lockMensajes;
-	void procesarMensaje(mensaje m);
+	void procesarMensaje(mensaje m, string contenidoCompleto);
 	void agregarConexionDeUsuario(int id);
 	bool validarNombreEnUso(string nombre);
 	void enviarNombreEnUso(int id, string nombre);

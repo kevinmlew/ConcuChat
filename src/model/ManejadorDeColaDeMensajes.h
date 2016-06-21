@@ -23,7 +23,7 @@ protected:
 	Cola<mensaje> colaDeMensajes;
 	SIGINT_Handler sigint_handler;
 	int tipoALeer;
-	virtual void procesarMensaje(mensaje m) = 0;
+	virtual void procesarMensaje(mensaje m, string contenidoCompleto) = 0;
 	void enviarParteMensaje(mensaje msg, string parte);
 	void enviarParteMensajeConLock(mensaje msg, string parte, LockFile* lock);
 

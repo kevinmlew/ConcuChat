@@ -17,8 +17,8 @@ ManejadorDelCliente::ManejadorDelCliente(const string archivo, const string arch
 
 }
 
-void ManejadorDelCliente::procesarMensaje(mensaje m) {
-	cout << m.texto << endl;
+void ManejadorDelCliente::procesarMensaje(mensaje m, string contenidoCompleto) {
+	cout << contenidoCompleto << endl;
 }
 
 void ManejadorDelCliente::conectar(string colaConexion) {
@@ -71,14 +71,16 @@ void ManejadorDelCliente::manejarEscritura() {
 	m.mtype = MENSAJE_A_SERVIDOR;
 	m.tipoMensaje = TIPO_CHAT;
 	m.userId = usuario->getId();
+	string contenidoMensaje;
 	while (enChat) {
-		cin.getline(m.texto, sizeof(m.texto));
-		if ( strcmp(m.texto,"exit") == 0) {
+		getline(cin, contenidoMensaje);
+//		cin.getline(m.texto, sizeof(m.texto));
+		if ( contenidoMensaje.compare("exit") == 0) {
 			enChat = false;
 			m.tipoMensaje = TIPO_SALIR;
 		}
 
-		enviarParteMensajeConLock(m, m.texto, &lockMensajes);
+		enviarParteMensajeConLock(m, contenidoMensaje, &lockMensajes);
 		//colaDeMensajes.escribir(m);
 
 	}

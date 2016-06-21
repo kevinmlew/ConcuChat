@@ -23,7 +23,7 @@ private:
 	Usuario* usuario;
 	LockFile lock;
 	LockFile lockMensajes;
-	void procesarMensaje(mensaje m);
+	void procesarMensaje(mensaje m, string contenidoCompleto);
 public:
 	ManejadorDelCliente(const string archivo, const string archivoLockMensajes);
 	void manejarEscritura();

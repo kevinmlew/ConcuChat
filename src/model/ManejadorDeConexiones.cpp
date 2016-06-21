@@ -34,7 +34,7 @@ void ManejadorDeConexiones::enviarNuevaConexionAlManejadorDeMensajes(){
 }
 
 
-void ManejadorDeConexiones::procesarMensaje(mensaje m) {
+void ManejadorDeConexiones::procesarMensaje(mensaje m, string contenidoCompleto) {
 	cantidadDeUsuarios++;
 	enviarNuevaConexionAlManejadorDeMensajes();
 	enviarIdAlUsuario();

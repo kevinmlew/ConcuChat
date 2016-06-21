@@ -9,10 +9,10 @@
 
 #include <csignal>
 #include <cstring>
+#include <sstream>
 
 #include "../ipc/LockFile.h"
 #include "../ipc/SignalHandler.h"
-
 
 ManejadorDeColaDeMensajes::ManejadorDeColaDeMensajes(const string archivo): colaDeMensajes(archivo, 'a'), tipoALeer(MENSAJE_A_SERVIDOR) {
 	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
@@ -23,10 +23,18 @@ void ManejadorDeColaDeMensajes::run() {
 	mensaje m;
 	int resultado;
 	while(sigint_handler.getGracefulQuit() == 0) {
+		stringstream ss;
 		resultado = colaDeMensajes.leer(tipoALeer, &m);
-		if (resultado == -1)
-			continue;
-		procesarMensaje(m);
+			if (resultado == -1)
+				continue;
+		while (m.status == STATUS_INCOMPLETO) {
+			ss << m.texto;
+			resultado = colaDeMensajes.leer(tipoALeer, &m);
+			if (resultado == -1)
+			    continue;
+		}
+		ss << m.texto;
+		procesarMensaje(m, ss.str());
 	}
 }
 

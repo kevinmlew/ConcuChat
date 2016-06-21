@@ -82,22 +82,21 @@ string ManejadorDeMensajes::getNombreDeUsuario(int id) {
 	return "";
 }
 
-void ManejadorDeMensajes::procesarMensaje(mensaje m) {
+void ManejadorDeMensajes::procesarMensaje(mensaje m, string contenidoCompleto) {
 	if (m.tipoMensaje == TIPO_NUEVA_CONEXION){
 		agregarConexionDeUsuario(atoi(m.texto));
 	} else if (m.tipoMensaje == TIPO_SELECCION_NOMBRE) {
-		bool nombreEnUso = validarNombreEnUso(m.texto);
+		bool nombreEnUso = validarNombreEnUso(contenidoCompleto);
 		if (nombreEnUso) {
-			enviarNombreEnUso(m.userId, m.texto);
+			enviarNombreEnUso(m.userId, contenidoCompleto);
 		} else {
-			agregarUsuarioActivo(m.userId, m.texto);
-			string nombre (m.texto);
-			broadcastMensaje("--SERVER--: " + nombre + " se acaba de loguear.");
+			agregarUsuarioActivo(m.userId, contenidoCompleto);
+			broadcastMensaje("--SERVER--: " + contenidoCompleto + " se acaba de loguear.");
 			enviarNombreDisponible(m.userId);
 			enviarHistorial(m.userId);
 		}
 	} else if (m.tipoMensaje == TIPO_CHAT){
-		string msgCompleto =  getNombreDeUsuario(m.userId) + ": " + m.texto;
+		string msgCompleto =  getNombreDeUsuario(m.userId) + ": " + contenidoCompleto;
 		guardarMensajeEnHistorial(msgCompleto);
 		enviarMensajeAUsuarios(m.userId, msgCompleto);
 	} else if (m.tipoMensaje == TIPO_SALIR) {

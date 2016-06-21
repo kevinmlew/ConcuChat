@@ -20,7 +20,7 @@ class ManejadorDeConexiones : public ManejadorDeColaDeMensajes {
 
 	ManejadorDeMensajes* manejadorDeMensajes;
 
-	void procesarMensaje(mensaje m);
+	void procesarMensaje(mensaje m, string contenidoCompleto);
 	void enviarIdAlUsuario();
 	void enviarNuevaConexionAlManejadorDeMensajes();
 public:
