@@ -27,6 +27,7 @@ void ManejadorDelCliente::conectar(string colaConexion) {
 	mensaje mensajeConexion;
 	mensajeConexion.mtype = MENSAJE_A_SERVIDOR;
 	mensajeConexion.userId = USUARIO_NO_REGISTRADO;
+	mensajeConexion.status = STATUS_OK;
 	string texto = "conexion";
 	strcpy(mensajeConexion.texto, texto.c_str());
 	mensaje respuesta;
@@ -44,6 +45,7 @@ void ManejadorDelCliente::login() {
 	mensaje mensajeLogin;
 	mensajeLogin.mtype = MENSAJE_A_SERVIDOR;
 	mensajeLogin.tipoMensaje = TIPO_SELECCION_NOMBRE;
+	mensajeLogin.status = STATUS_OK;
 	mensajeLogin.userId = usuario->getId();
 	mensaje respuesta;
 

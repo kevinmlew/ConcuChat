@@ -25,6 +25,7 @@ void ManejadorDeConexiones::enviarIdAlUsuario(){
 	mensaje men;
 	men.mtype = REGISTRAR_USUARIO;
 	men.tipoMensaje = TIPO_ASIGNACION_ID;
+	men.status = STATUS_OK;
 	strcpy(men.texto, std::to_string(cantidadDeUsuarios).c_str());
 	colaDeMensajes.escribir(men);
 }
@@ -38,7 +39,7 @@ void ManejadorDeConexiones::procesarMensaje(mensaje m, string contenidoCompleto)
 	cantidadDeUsuarios++;
 	enviarNuevaConexionAlManejadorDeMensajes();
 	enviarIdAlUsuario();
-	Logger::insert(Logger::TYPE_INFO, "Se conecto un nuevo usuario, se le asigna el ID: " + cantidadDeUsuarios);
+	Logger::insert(Logger::TYPE_INFO, "Se conecto un nuevo usuario, se le asigna el ID: " + to_string(cantidadDeUsuarios));
 }
 
 ManejadorDeConexiones::~ManejadorDeConexiones() {

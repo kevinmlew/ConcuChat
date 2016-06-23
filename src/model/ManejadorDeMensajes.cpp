@@ -31,7 +31,7 @@ void ManejadorDeMensajes::notificarNuevaConexion(int id) {
 void ManejadorDeMensajes::agregarConexionDeUsuario(int id) {
 	Usuario user(id);
 	usuarios.push_back(user);
-	Logger::insert(Logger::TYPE_INFO, "Se conecto un nuevo usuario con ID: " + id);
+	Logger::insert(Logger::TYPE_INFO, "Se conecto un nuevo usuario con ID: " + to_string(id));
 }
 
 bool ManejadorDeMensajes::validarNombreEnUso(string nombre) {
@@ -107,7 +107,7 @@ void ManejadorDeMensajes::procesarMensaje(mensaje m, string contenidoCompleto) {
 }
 
 void ManejadorDeMensajes::eliminarUsuario(int userId){
-	Logger::insert(Logger::TYPE_INFO, "Se desconecto un usuario con ID: " + userId);
+	Logger::insert(Logger::TYPE_INFO, "Se desconecto un usuario con ID: " + to_string(userId));
 	usuarios[getIndiceDeUsuario(userId)].setActivo(false);
 }
 
@@ -141,7 +141,8 @@ void ManejadorDeMensajes::enviarMensajeAUsuarios(int autorId, string msgCompleto
 
 void ManejadorDeMensajes::broadcastMensaje(string msg){
 	for (unsigned int i = 0 ; i < this->usuarios.size(); i++){
-    	enviarMensaje(usuarios[i].getId(), msg);
+		if (usuarios[i].isActivo())
+			enviarMensaje(usuarios[i].getId(), msg);
 	}
 }
 

@@ -38,12 +38,12 @@ void Logger::destruir () {
 	}
 }
 
-bool Logger::esNecesarioLoggear(string typeLog){
-	return (Logger::MODE_DEBUG && typeLog == Logger::TYPE_DEBUG);
+bool Logger::ignorarLog(string typeLog){
+	return (!(Logger::MODE_DEBUG) && typeLog == Logger::TYPE_DEBUG);
 }
 
 void Logger::insert(string typeLog, string message){
-	if (!esNecesarioLoggear(typeLog)) {
+	if (ignorarLog(typeLog)) {
 		return;
 	}
 	getInstance()->lock.tomarLock(1);

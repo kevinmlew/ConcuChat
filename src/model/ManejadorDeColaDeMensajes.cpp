@@ -9,7 +9,6 @@
 
 #include <csignal>
 #include <cstring>
-#include <sstream>
 
 #include "../ipc/LockFile.h"
 #include "../ipc/SignalHandler.h"
@@ -23,18 +22,18 @@ void ManejadorDeColaDeMensajes::run() {
 	mensaje m;
 	int resultado;
 	while(sigint_handler.getGracefulQuit() == 0) {
-		stringstream ss;
+		string s = "";
 		resultado = colaDeMensajes.leer(tipoALeer, &m);
 			if (resultado == -1)
 				continue;
 		while (m.status == STATUS_INCOMPLETO) {
-			ss << m.texto;
+			s.append(m.texto);
 			resultado = colaDeMensajes.leer(tipoALeer, &m);
 			if (resultado == -1)
 			    continue;
 		}
-		ss << m.texto;
-		procesarMensaje(m, ss.str());
+		s.append(m.texto);
+		procesarMensaje(m, s);
 	}
 }
 
@@ -47,6 +46,7 @@ void ManejadorDeColaDeMensajes::enviarParteMensajeConLock(mensaje msg, string pa
 void ManejadorDeColaDeMensajes::enviarParteMensaje(mensaje msg, string parte){
 	if (parte.size() <= TEXTO_SIZE) {
 		strcpy(msg.texto, parte.c_str());
+		msg.status = STATUS_OK;
 		colaDeMensajes.escribir(msg);
 	} else {
 		int statusAux = msg.status;

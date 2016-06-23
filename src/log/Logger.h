@@ -22,7 +22,7 @@ private:
 	static Logger* getInstance();
 	LockFile lock;
 
-	static bool esNecesarioLoggear(string typeLog);
+	static bool ignorarLog(string typeLog);
 
 public:
 	static void insert(string typeLog, string message);
